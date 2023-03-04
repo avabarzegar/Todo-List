@@ -1,9 +1,7 @@
 import React, { useReducer } from "react";
 import Layout from "../components/layout/Layout";
-import { useParams } from "react-router-dom";
-
-import AddTask from "./AddTask.js";
-import TaskList from "./TaskList.js";
+import AddTask from "../components/list/AddTask";
+import TaskList from "../components/list/TaskList";
 
 function tasksReducer(tasks, action) {
   switch (action.type) {
@@ -62,13 +60,13 @@ function TaskApp() {
 
   return (
     <Layout>
-      <h1>Prague itinerary</h1>
+      <h1>Todo List</h1>
       <AddTask onAddTask={handleAddTask} />
-      <TaskList
+      {/* <TaskList
         tasks={tasks}
         onChangeTask={handleChangeTask}
         onDeleteTask={handleDeleteTask}
-      />
+      /> */}
     </Layout>
   );
 }
