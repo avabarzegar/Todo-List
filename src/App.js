@@ -9,7 +9,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/TodoList/:day" element={<TodoList />} />
-        <Route path="/" element={<Calendar />} />
+        <Route path="/" element={<TodoList />} />
       </Routes>
     </Router>
   );
