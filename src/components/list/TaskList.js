@@ -1,82 +1,74 @@
-// import * as React from "react";
-// import Checkbox from "../UI/Checkbox";
-// import EditBtn from "../UI/EditBtn";
-// import DeleteBtn from "../UI/DeleteBtn";
-// import { Grid } from "@mui/material";
-
-// export default function TaskList(props) {
-//   return props.tasks.map((task) => {
-//     <Grid container>
-//       <Grid item>
-//         <Checkbox />
-//       </Grid>
-//       <Grid item>
-//         <h4>{task}</h4>
-//       </Grid>
-//       <Grid item>
-//         <EditBtn onChangeTask={props.onChangeTask} />
-//       </Grid>
-//       <Grid item>
-//         <DeleteBtn onDeleteTask={props.onDeleteTask} />
-//       </Grid>
-//     </Grid>;
-//   });
-// }
-
 import { useState } from "react";
-
-export default function TaskList({ tasks, onChangeTask, onDeleteTask }) {
-  return (
-    <ul>
-      {tasks.map((task) => (
-        <li key={task.id}>
-          <Task task={task} onChange={onChangeTask} onDelete={onDeleteTask} />
-        </li>
-      ))}
-    </ul>
-  );
-}
+import Checkbox from "../UI/Checkbox";
+import EditBtn from "../UI/EditBtn";
+import DeleteBtn from "../UI/DeleteBtn";
+import SaveBtn from "../UI/SaveBtn";
+import { Grid, TextField } from "@mui/material";
 
 function Task({ task, onChange, onDelete }) {
   const [isEditing, setIsEditing] = useState(false);
   let taskContent;
   if (isEditing) {
     taskContent = (
-      <>
-        <input
-          value={task.text}
-          onChange={(e) => {
-            onChange({
-              ...task,
-              text: e.target.value,
-            });
-          }}
-        />
-        <button onClick={() => setIsEditing(false)}>Save</button>
-      </>
+      <Grid container>
+        <Grid item>
+          <TextField
+            value={task.text}
+            onChange={(e) => {
+              onChange({
+                ...task,
+                text: e.target.value,
+              });
+            }}
+            id="outlined-multiline-flexible"
+            multiline
+            maxRows={4}
+          />
+        </Grid>
+        <Grid item>
+          <SaveBtn onClick={() => setIsEditing(false)} />
+        </Grid>
+      </Grid>
     );
   } else {
     taskContent = (
-      <>
-        {task.text}
-        <button onClick={() => setIsEditing(true)}>Edit</button>
-      </>
+      <Grid container>
+        <Grid item>{task.text}</Grid>
+        <Grid item>
+          <EditBtn onClick={() => setIsEditing(true)} />
+        </Grid>
+      </Grid>
     );
   }
   return (
-    <label>
-      <input
-        type="checkbox"
-        checked={task.done}
-        onChange={(e) => {
-          onChange({
-            ...task,
-            done: e.target.checked,
-          });
-        }}
-      />
-      {taskContent}
-      <button onClick={() => onDelete(task.id)}>Delete</button>
-    </label>
+    <Grid container>
+      <Grid item>
+        <Checkbox
+          checked={task.done}
+          onChange={(e) => {
+            onChange({
+              ...task,
+              done: e.target.checked,
+            });
+          }}
+        />
+      </Grid>
+      <Grid item>{taskContent}</Grid>
+      <Grid item>
+        <DeleteBtn onClick={() => onDelete(task.id)} />
+      </Grid>
+    </Grid>
+  );
+}
+
+export default function TaskList({ tasks, onChangeTask, onDeleteTask }) {
+  return (
+    <Grid container direction="column">
+      {tasks.map((task) => (
+        <Grid item key={task.id}>
+          <Task task={task} onChange={onChangeTask} onDelete={onDeleteTask} />
+        </Grid>
+      ))}
+    </Grid>
   );
 }

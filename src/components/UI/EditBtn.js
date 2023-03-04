@@ -6,7 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 export default function FloatingActionButtons(props) {
   return (
     <Box sx={{ "& > :not(style)": { m: 1 } }}>
-      <Fab color="secondary" aria-label="edit" onClick={props.onChangeTask}>
+      <Fab size="small" color="secondary" aria-label="edit" onClick={props.onClick}>
         <EditIcon />
       </Fab>
     </Box>

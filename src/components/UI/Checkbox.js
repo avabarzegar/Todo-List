@@ -4,10 +4,10 @@ import Checkbox from '@mui/material/Checkbox';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-export default function ColorCheckboxes() {
+export default function ColorCheckboxes({checked, onChange}) {
   return (
     <div>
-      <Checkbox {...label} defaultChecked color="success" />
+      <Checkbox {...label} checked={checked} onChange={onChange} color="success" />
       {/* <Checkbox
         {...label}
         defaultChecked
