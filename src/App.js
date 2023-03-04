@@ -9,7 +9,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/TodoList/:day" element={<TodoList />} />
-        <Route path="/" element={<Calendar year={2023} month={3} />} />
+        <Route path="/" element={<Calendar />} />
       </Routes>
     </Router>
   );
