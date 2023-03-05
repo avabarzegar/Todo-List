@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Checkbox from "../UI/Checkbox";
 import EditBtn from "../UI/EditBtn";
 import DeleteBtn from "../UI/DeleteBtn";
@@ -7,6 +7,7 @@ import { Grid, TextField } from "@mui/material";
 
 function Task({ task, onChange, onDelete }) {
   const [isEditing, setIsEditing] = useState(false);
+  
   let taskContent;
   if (isEditing) {
     taskContent = (
@@ -61,10 +62,17 @@ function Task({ task, onChange, onDelete }) {
   );
 }
 
+
 export default function TaskList({ tasks, onChangeTask, onDeleteTask }) {
+  const localTasks = JSON.parse(localStorage.getItem('tasks'))
+
+  useEffect(()=>{
+    console.log(localTasks);
+   
+  },[tasks])
   return (
     <Grid container direction="column">
-      {tasks.map((task) => (
+      {localTasks?.map((task) => (
         <Grid item key={task.id}>
           <Task task={task} onChange={onChangeTask} onDelete={onDeleteTask} />
         </Grid>

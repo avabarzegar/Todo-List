@@ -1,31 +1,31 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import Layout from "../components/layout/Layout";
 import AddTask from "../components/list/AddTask";
 import TaskList from "../components/list/TaskList";
+import saveDataLocalStorage from "../hooks/SaveLocal";
 
-
-let nextId = 3;
-const initialTasks = [
-  { id: 0, text: "Visit Kafka Museum", done: true },
-  { id: 1, text: "Watch a puppet show", done: false },
-  { id: 2, text: "Lennon Wall pic", done: false },
-];
-
+let nextId = 0;
+// const initialTasks = [
+//   { id: 0, text: "Visit Kafka Museum", done: true },
+//   { id: 1, text: "Watch a puppet show", done: false },
+//   { id: 2, text: "Lennon Wall pic", done: false },
+// ];
 
 function tasksReducer(tasks, action) {
   switch (action.type) {
     case "added": {
-      return [
-        ...tasks,
-        {
-          id: action.id,
-          text: action.text,
-          done: false,
-        },
-      ];
+      const addedData = {
+        id: action.id,
+        text: action.text,
+        done: false,
+      };
+      // window.localStorage.setItem(action.id, action.text);
+      if (tasks) {
+        return [...tasks, addedData];
+      } else return addedData;
     }
     case "changed": {
-      return tasks.map((t) => {
+      return tasks?.map((t) => {
         if (t.id === action.task.id) {
           return action.task;
         } else {
@@ -43,7 +43,18 @@ function tasksReducer(tasks, action) {
 }
 
 function TaskApp() {
-  const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
+  const [tasks, dispatch] = useReducer(tasksReducer, []);
+
+  useEffect(() => {
+    window.localStorage.clear();
+    let updatedTasks = [];
+    tasks.map((task) => {
+      updatedTasks.push(task)
+      
+    });
+    window.localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+    console.log(localStorage)
+  }, [tasks]);
 
   function handleAddTask(text) {
     dispatch({
@@ -65,6 +76,7 @@ function TaskApp() {
       type: "deleted",
       id: taskId,
     });
+   
   }
 
   return (
@@ -80,4 +92,3 @@ function TaskApp() {
   );
 }
 export default TaskApp;
-
