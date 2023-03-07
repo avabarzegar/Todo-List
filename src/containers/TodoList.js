@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useState } from "react";
 import Layout from "../components/layout/Layout";
 import AddTask from "../components/list/AddTask";
 import TaskList from "../components/list/TaskList";
@@ -44,17 +44,23 @@ function tasksReducer(tasks, action) {
 
 function TaskApp() {
   const [tasks, dispatch] = useReducer(tasksReducer, []);
+  const [localTasks, setLocalTasks] = useState([]);
 
   useEffect(() => {
-    window.localStorage.clear();
     let updatedTasks = [];
+
     tasks.map((task) => {
-      updatedTasks.push(task)
-      
+      updatedTasks.push(task);
     });
-    window.localStorage.setItem("tasks", JSON.stringify(updatedTasks));
-    console.log(localStorage)
+
+    saveDataLocalStorage("tasks", JSON.stringify(updatedTasks));
+
+    setLocalTasks(JSON.parse(localStorage.getItem("tasks")));
+
+    console.log(localStorage);
   }, [tasks]);
+
+  console.log(localTasks);
 
   function handleAddTask(text) {
     dispatch({
@@ -76,7 +82,6 @@ function TaskApp() {
       type: "deleted",
       id: taskId,
     });
-   
   }
 
   return (
@@ -84,6 +89,7 @@ function TaskApp() {
       <h1>Todo List</h1>
       <AddTask onAddTask={handleAddTask} />
       <TaskList
+        localTasks={localTasks}
         tasks={tasks}
         onChangeTask={handleChangeTask}
         onDeleteTask={handleDeleteTask}
