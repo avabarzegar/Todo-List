@@ -63,14 +63,20 @@ function Task({ task, onChange, onDelete }) {
 }
 
 export default function TaskList({ localTasks, onChangeTask, onDeleteTask }) {
-
+  console.log(localTasks);
   return (
     <Grid container direction="column">
-      {localTasks.map((task) => (
-        <Grid item key={task.id}>
-          <Task task={task} onChange={onChangeTask} onDelete={onDeleteTask} />
-        </Grid>
-      ))}
+      {localTasks? 
+        localTasks.map((task) => (
+            <Grid item key={task.id}>
+              <Task
+                task={task}
+                onChange={onChangeTask}
+                onDelete={onDeleteTask}
+              />
+            </Grid>
+          ))
+        : null}
     </Grid>
   );
 }

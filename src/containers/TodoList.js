@@ -47,13 +47,14 @@ function TaskApp() {
   const [localTasks, setLocalTasks] = useState([]);
 
   useEffect(() => {
-    let updatedTasks = [];
+    // localStorage.clear();
+    // let updatedTasks = [];
 
-    tasks.map((task) => {
-      updatedTasks.push(task);
-    });
+    // tasks.map((task) => {
+    //   updatedTasks.push(task);
+    // });
 
-    saveDataLocalStorage("tasks", JSON.stringify(updatedTasks));
+    saveDataLocalStorage("tasks", JSON.stringify(tasks));
 
     setLocalTasks(JSON.parse(localStorage.getItem("tasks")));
 
